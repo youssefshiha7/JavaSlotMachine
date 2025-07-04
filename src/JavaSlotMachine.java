@@ -11,7 +11,6 @@ public class JavaSlotMachine {
         int bet;
         int payout = 0;
         int options;
-        String[] row;
         System.out.println("****************************");
         System.out.println("Welcome to Java Slot Machine");
         System.out.println("Symbols : 😂 ✔ 🎉 🍉 🍒");
@@ -30,23 +29,22 @@ public class JavaSlotMachine {
             }else{
                 balance-=bet;
             }
-            RunSpin(balance,payout,bet);
+            balance=RunSpin(balance,payout,bet);
             System.out.printf("1-Again %n2-Ext %n");
             options=scanner.nextInt();
 
             if(options==2){
                 System.out.println("See you soon");
                 break;
-            } else if (options==1) {
-                continue;
-            }else {
-                System.out.println("Wrong option");
-                continue;
+            } else {
+                if (options != 1) {
+                    System.out.println("Wrong option");
+                }
             }
 
         }
         if(balance<0){
-            System.out.println("You don't have enough balance.");
+            System.out.print("You don't have enough balance: "+balance);
         }
     }
 
@@ -61,28 +59,34 @@ public class JavaSlotMachine {
         {
             row[itr]=symbols[random.nextInt(symbols.length)];
             if(itr==2){
-                if(row[0].equals(row[1]) && row[1].equals(row[2]) && row[0].equals(row[2])){
+                if(row[0].equals(row[1]) && row[1].equals(row[2])){
                     isWin=true;
-                    if(row[0].equals("🍒")){
-                        payout+=bet*5;
-                        balance+=payout;
-                        return balance;
-                    } else if (row[0].equals("😂")) {
-                        payout+=bet;
-                        balance +=payout;
-                        return balance;
-                    } else if (row[0].equals("🍉")) {
-                        payout+=bet*3;
-                        balance +=payout;
-                        return balance;
-                    } else if (row[0].equals("✔")) {
-                        payout+=bet*2;
-                        balance +=payout;
-                        return balance;
-                    }else if(row[0].equals("🎉")){
-                        payout+=bet*4;
-                        balance +=payout;
-                        return balance;
+                    switch (row[0]) {
+                        case "🍒" -> {
+                            payout += bet * 5;
+                            balance += payout;
+                            return balance;
+                        }
+                        case "😂" -> {
+                            payout += bet;
+                            balance += payout;
+                            return balance;
+                        }
+                        case "🍉" -> {
+                            payout += bet * 3;
+                            balance += payout;
+                            return balance;
+                        }
+                        case "✔" -> {
+                            payout += bet * 2;
+                            balance += payout;
+                            return balance;
+                        }
+                        case "🎉" -> {
+                            payout += bet * 4;
+                            balance += payout;
+                            return balance;
+                        }
                     }
                 }
             }
